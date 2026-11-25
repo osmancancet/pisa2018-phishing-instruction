@@ -1,6 +1,6 @@
 # Phishing instruction and adolescents' judgements of a phishing email (PISA 2018)
 
-Code and per-run results for the paper by O. C. Çetlenbik and B. Öktelik.
+Code, per-run results and manuscript source for the paper by O. C. Çetlenbik and B. Öktelik.
 
 ## Data
 Public PISA 2018 student questionnaire file (SPSS, `CY07_MSU_STU_QQQ.sav`) from the OECD PISA 2018 database
@@ -21,10 +21,11 @@ Public PISA 2018 student questionnaire file (SPSS, `CY07_MSU_STU_QQQ.sav`) from 
 | 10 | `exp_r1.py <part>` for part in ars, alt, school, excl, tur, items, sep, inter, sens, jerrim, country, bal, rules, turb, sens2, logit | `results/exp_r1_<part>.json` |
 | 11 | `exp_r1_meta.py`, `exp_r1_meta_reml.py`, `exp_r1_predict.py`, `exp_r1_readgap.py` | meta-analyses (DerSimonian-Laird and REML with Hartung-Knapp-Sidik-Jonkman intervals), leave-systems-out prediction with system-grouped thresholds and saved predictions |
 | 11b | `prepare_r2.py`, `exp_r2.py <part>` for part in sysvars, count, schfe, rules2, bal2, inter2, items2, subnat; `exp_r2_meta.py` | round-2 checks: breadth of instruction, pooled school fixed effects, outcome-defined rules under a permutation null, 12-item balanced index, same-sample logit, item checks, sub-national units, meta-regression (`results/exp_r2_*.json`) |
+| 11c | `exp_r3.py <part>` for part in curve_full, curve_effort, curve_not_alllow, curve_not_allhigh, curve_consistent, curve_combined, overlap; `make_dag.py` | round-4 checks: specification curve (5 covariate sets x 4 outcomes x 6 samples, `results/exp_r3_curve_*.json`), overlap in instruction breadth (`results/exp_r3_overlap.json`), Appendix Fig. A1 |
 | 12 | `make_numbers.py`, `make_tables.py` (Tables 1 to 3, A1; Figs 1 to 3), `render.py`, `build_docx.py`, `make_submission.py` | `results/numbers.json`, `results/tables.json`, figures, `manuscript/main.docx`, highlights and cover letter |
 
 `run_all.sh` runs the whole sequence and writes SHA-256 digests of the code to `results/code_sha256.txt`.
-The .sav file is expected at `data/STU/CY07_MSU_STU_QQQ.sav`. Step 12 needs the manuscript sources, which are added after publication.
+The .sav file is expected at `data/STU/CY07_MSU_STU_QQQ.sav`.
 
 Note: steps 1 to 8 are the first set of analyses and are unchanged. Steps 9 to 11 add the response-style indices, alternative outcomes, exclusion rules and system-grouped prediction.
 The manuscript reports the prediction results of step 11 (one seed, thresholds tuned on held-out systems); step 5 (three seeds, thresholds tuned on held-out students) is kept for comparison.

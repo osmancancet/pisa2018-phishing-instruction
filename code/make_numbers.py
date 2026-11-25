@@ -162,3 +162,52 @@ json.dump(N, open(f'{R}/numbers.json', 'w'), indent=1, default=float)
 if 'r2_meta_taught_p_1' in N:
     N['r2_meta_taught_p_bonf5'] = min(1.0, 5 * N['r2_meta_taught_p_1'])
     json.dump(N, open(f'{R}/numbers.json', 'w'), indent=1, default=float)
+# round 4: specification curve and overlap
+import glob as _glob
+_cf = sorted(_glob.glob(f'{R}/exp_r3_curve_*.json'))
+if len(_cf) == 6:
+    _c = {}
+    for f in _cf:
+        _c.update(json.load(open(f)))
+    _out = {'not_allhigh', 'consistent', 'combined'}
+    _b = {k: v['b'] for k, v in _c.items()}
+    _z = {k: v['b'] / v['se'] for k, v in _c.items()}
+    N['r3_curve_n'] = len(_c)
+    for grp, sel in (('all', lambda s: True), ('outside', lambda s: s not in _out), ('outcome', lambda s: s in _out)):
+        ks = [k for k in _c if sel(k.split('|')[0])]
+        N[f'r3_curve_{grp}_n'] = len(ks)
+        N[f'r3_curve_{grp}_pos_sig'] = sum(_z[k] > 1.96 for k in ks)
+        N[f'r3_curve_{grp}_neg_sig'] = sum(_z[k] < -1.96 for k in ks)
+        N[f'r3_curve_{grp}_min'] = min(_b[k] for k in ks)
+        N[f'r3_curve_{grp}_max'] = max(_b[k] for k in ks)
+        N[f'r3_curve_{grp}_median'] = float(np.median([_b[k] for k in ks]))
+    for o in ('click', 'click5', 'click6', 'click_top'):
+        ks = [k for k in _c if k.split('|')[1] == o and k.split('|')[0] not in _out]
+        N[f'r3_curve_outside_{o}_neg_sig'] = sum(_z[k] < -1.96 for k in ks)
+        N[f'r3_curve_outside_{o}_n'] = len(ks)
+    for nm, ms in (('M34', ('M3', 'M4')), ('M012', ('M0', 'M1', 'M2'))):
+        for grp, sel in (('outside', lambda x: x not in _out), ('outcome', lambda x: x in _out)):
+            ks = [k for k in _c if k.split('|')[2] in ms and sel(k.split('|')[0]) and k.split('|')[1] != 'click_top']
+            N[f'r3_curve_{grp}_{nm}_noTop_n'] = len(ks)
+            N[f'r3_curve_{grp}_{nm}_noTop_pos_sig'] = sum(_z[k] > 1.96 for k in ks)
+            N[f'r3_curve_{grp}_{nm}_noTop_neg_sig'] = sum(_z[k] < -1.96 for k in ks)
+            N[f'r3_curve_{grp}_{nm}_noTop_min'] = min(_b[k] for k in ks)
+            N[f'r3_curve_{grp}_{nm}_noTop_max'] = max(_b[k] for k in ks)
+    ks = [k for k in _c if k.split('|')[1] == 'click_top']
+    N['r3_curve_top_n'] = len(ks); N['r3_curve_top_neg_sig'] = sum(_z[k] < -1.96 for k in ks)
+    N['r3_curve_top_min'] = min(_b[k] for k in ks); N['r3_curve_top_max'] = max(_b[k] for k in ks)
+    for m in ('M3', 'M4'):
+        ks = [k for k in _c if k.split('|')[2] == m and k.split('|')[0] not in _out]
+        N[f'r3_curve_outside_{m}_max_abs'] = max(abs(_b[k]) for k in ks)
+    json.dump(N, open(f'{R}/numbers.json', 'w'), indent=1, default=float)
+if os.path.exists(f'{R}/exp_r3_overlap.json'):
+    _o = json.load(open(f'{R}/exp_r3_overlap.json'))
+    for k, v in _o.items():
+        if isinstance(v, dict):
+            for kk in ('b', 'se', 'n'):
+                N[f'r3_overlap_{k}_{kk}'] = v[kk]
+        else:
+            N[f'r3_overlap_{k}'] = v
+    N['r3_overlap_t1_share_3plus'] = sum(_o[f'share_t1_n{k}'] for k in range(3, 7))
+    N['r3_overlap_t0_share_3plus'] = sum(_o[f'share_t0_n{k}'] for k in range(3, 7))
+    json.dump(N, open(f'{R}/numbers.json', 'w'), indent=1, default=float)

@@ -177,3 +177,45 @@ ax.set_yticks(range(len(top))); ax.set_yticklabels([LAB.get(k, k) for k in top],
 ax.set_xlabel('Mean |SHAP value| (log-odds), country-balanced sample', fontsize=8)
 fig.tight_layout(); fig.savefig(f'{OUT}/fig3_shap.png', dpi=300)
 print('tables and figures written')
+
+# Fig. 5 (round 4): specification curve over covariate set x outcome x sample
+import glob, os
+_cf = sorted(glob.glob(f'{R}/exp_r3_curve_*.json'))
+if len(_cf) == 6:
+    c = {}
+    for f in _cf:
+        c.update(json.load(open(f)))
+    OUTSET = {'not_allhigh', 'consistent', 'combined'}
+    rows = sorted(c.items(), key=lambda kv: kv[1]['b'])
+    b = np.array([v['b'] for _, v in rows]) * 100
+    se = np.array([v['se'] for _, v in rows]) * 100
+    samp = [k.split('|')[0] for k, _ in rows]
+    col = ['#c0392b' if s in OUTSET else '#1f4e79' for s in samp]
+    x = np.arange(len(rows))
+    fig, (a1, a2) = plt.subplots(2, 1, figsize=(7.2, 6.6), sharex=True, gridspec_kw={'height_ratios': [1.15, 1.6]})
+    a1.axhline(0, color='#555', lw=0.7)
+    a1.vlines(x, b - 1.96 * se, b + 1.96 * se, color=col, lw=0.6, alpha=0.6)
+    a1.scatter(x, b, c=col, s=7, zorder=3)
+    a1.set_ylabel('Coefficient on phishing\ninstruction (pp, 95% CI)', fontsize=8)
+    a1.tick_params(labelsize=7)
+    from matplotlib.lines import Line2D
+    a1.legend(handles=[Line2D([], [], marker='o', ls='', color='#1f4e79', ms=4, label='Full sample or rule defined outside the outcome'),
+                       Line2D([], [], marker='o', ls='', color='#c0392b', ms=4, label='Rule defined on the scenario ratings')],
+              fontsize=7, loc='upper left', frameon=False)
+    lab_rows = [('cov', 'M0', 'M0: system FE'), ('cov', 'M1', 'M1: + background'), ('cov', 'M2', 'M2: + reading'),
+                ('cov', 'M3', 'M3: + other topics'), ('cov', 'M4', 'M4: + agreement index'),
+                ('out', 'click', 'Click rated 4-6'), ('out', 'click5', 'Click rated 5-6'), ('out', 'click6', 'Click rated 6'),
+                ('out', 'click_top', 'Click above all others'),
+                ('smp', 'full', 'Full sample'), ('smp', 'effort', 'Rule 1: effort'), ('smp', 'not_alllow', 'Rule 2b: all low'),
+                ('smp', 'not_allhigh', 'Rule 2a: all high'), ('smp', 'consistent', 'Rule 3: click and delete'),
+                ('smp', 'combined', 'All rules combined')]
+    pos = {'smp': 0, 'out': 1, 'cov': 2}
+    for i, (kind, val, lab) in enumerate(lab_rows):
+        y = len(lab_rows) - 1 - i
+        hit = [j for j, (k, _) in enumerate(rows) if k.split('|')[pos[kind]] == val]
+        a2.scatter(hit, [y] * len(hit), c=[col[j] for j in hit], s=4, marker='|')
+    a2.set_yticks(range(len(lab_rows))); a2.set_yticklabels([l for *_, l in lab_rows][::-1], fontsize=7)
+    for yy in (5.5, 9.5):
+        a2.axhline(yy, color='#bbb', lw=0.5)
+    a2.set_xlabel('Specifications ordered by estimate', fontsize=8); a2.tick_params(axis='x', labelsize=7)
+    fig.tight_layout(); fig.savefig(f'{OUT}/fig5_speccurve.png', dpi=300)
