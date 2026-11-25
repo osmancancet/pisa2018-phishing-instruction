@@ -156,3 +156,6 @@ json.dump(N, open(f'{R}/numbers.json', 'w'), indent=1, default=float)
 if 'r2_meta_click_p_1' in N:
     N['r2_meta_other_min_p'] = min(N[f'r2_meta_{m}_p_1'] for m in ('click', 'ars', 'read', 'oecd'))
     json.dump(N, open(f'{R}/numbers.json', 'w'), indent=1, default=float)
+_a1 = json.load(open(f'{R}/a1_descriptives.json'))['countries']
+N['ITA_minus_TUR_taught'] = _a1['ITA']['taught'] - _a1['TUR']['taught']
+json.dump(N, open(f'{R}/numbers.json', 'w'), indent=1, default=float)
