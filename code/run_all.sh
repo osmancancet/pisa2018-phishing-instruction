@@ -11,8 +11,8 @@ python code/a3_predict.py loco 3
 python code/a5_shap.py
 python code/a6_items_turkey.py
 for p in ars alt school excl tur items sep inter sens jerrim country bal rules turb sens2 logit; do python code/exp_r1.py $p; done
-python code/exp_r1_meta.py
+python code/exp_r1_meta.py && python code/exp_r1_meta_reml.py
 python code/exp_r1_predict.py && python code/exp_r1_readgap.py
 python code/make_numbers.py && python code/make_tables.py && python code/render.py && python code/build_docx.py && python code/make_submission.py
 (cd manuscript && soffice --headless --convert-to pdf main.docx)
-sha256sum code/*.py code/*.sh > results/code_sha256.txt
+sha256sum code/*.py code/*.sh code/*.lua > results/code_sha256.txt

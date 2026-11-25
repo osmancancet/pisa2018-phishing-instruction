@@ -57,8 +57,10 @@ rows = [('**A. Model sequence (outcome: click rated 4 to 6)**', None, None, None
         ('E2', 'No all-low pattern on the scenario (rule 2b only)', rules['not_alllow_M4ars'], None),
         ('E3', 'No all-high pattern on the scenario (rule 2a only; removes endorsers only)', rules['not_allhigh_M4ars'], None),
         ('E4', 'Click and delete not both 4 or above (rule 3 only; removes endorsers only)', rules['consistent_M4ars'], None),
+        ('E5', 'Top tenth of each system\'s agreement index removed', json.load(open(f'{R}/exp_r1_excl.json'))['ars_top10_dropped_M4ars'], None),
         ('J0', 'Restricted sample (Jerrim-type), M0', jer['all_M0'], jer['by_country']['TUR']['M0']),
         ('J4', 'Restricted sample (Jerrim-type), M4', jer['all_M4ars'], jer['by_country']['TUR']['M4ars']),
+        ('J0o', 'Restricted sample, OECD members only, M0', jer['oecd_M0'], None),
         ('J4o', 'Restricted sample, OECD members only, M4', jer['oecd_M4ars'], None),
         ('T1', 'M4 + programme fixed effects', None, tur['M4ars_progFE']),
         ('T2', 'M4 + school fixed effects', None, tur['M4ars_schoolFE'])]

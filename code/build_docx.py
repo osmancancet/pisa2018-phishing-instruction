@@ -73,7 +73,7 @@ d.save(ref)
 
 subprocess.check_call(['pandoc', f'{M}/main.md', '-o', f'{M}/main.docx', '--citeproc',
                        f'--bibliography={M}/refs.bib', f'--csl={M}/apa.csl', f'--reference-doc={ref}',
-                       f'--resource-path={_figdir}:{M}', '-M', 'link-citations=false'])
+                       f'--resource-path={_figdir}:{M}', '--lua-filter=code/number_headings.lua', '-M', 'link-citations=false'])
 doc = Document(f'{M}/main.docx')
 # tables: 9 pt single spaced, full width
 for t in doc.tables:

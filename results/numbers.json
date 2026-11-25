@@ -818,5 +818,15 @@
  "r1_pred_per_system_lgbm_k": 77,
  "r1_pred_TUR_auc_lgbm": 0.7184816207892841,
  "r1_pred_TUR_auc_logit": 0.6993290862734568,
- "r1_inter_min_other_holm": 0.16282415882582665
+ "r1_inter_min_other_holm": 0.16282415882582665,
+ "n_dropped_missing_cov": 28407,
+ "share_dropped_missing_cov": 0.05347069154072465,
+ "r1_reml_M4ars_k": 77,
+ "r1_reml_M4ars_tau": 0.015019660807460436,
+ "r1_reml_M4ars_random": 0.012274734806031343,
+ "r1_reml_M4ars_hksj_se": 0.0024356572409048203,
+ "r1_reml_M4ars_hksj_ci_0": 0.007423702992838517,
+ "r1_reml_M4ars_hksj_ci_1": 0.01712576661922417,
+ "r1_reml_M4ars_pi_0": -0.01803682847908649,
+ "r1_reml_M4ars_pi_1": 0.04258629809114918
 }

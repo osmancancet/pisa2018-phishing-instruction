@@ -129,3 +129,9 @@ print(len(N), 'numbers')
 _inter = json.load(open(f'{R}/exp_r1_inter.json'))['moderators']
 N['r1_inter_min_other_holm'] = min(_inter[k]['p_holm'] for k in ('female', 'ESCS', 'effort', 'ENTUSE'))
 json.dump(N, open(f'{R}/numbers.json', 'w'), indent=1, default=float)
+# complete-case loss and REML/HKSJ meta-analysis check
+N['n_dropped_missing_cov'] = N['loco_n'] - N['pooled_M0_none_n']
+N['share_dropped_missing_cov'] = N['n_dropped_missing_cov'] / N['loco_n']
+if os.path.exists(f'{R}/exp_r1_meta_reml.json'):
+    flat('r1_reml', json.load(open(f'{R}/exp_r1_meta_reml.json')))
+json.dump(N, open(f'{R}/numbers.json', 'w'), indent=1, default=float)
