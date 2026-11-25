@@ -135,3 +135,24 @@ N['share_dropped_missing_cov'] = N['n_dropped_missing_cov'] / N['loco_n']
 if os.path.exists(f'{R}/exp_r1_meta_reml.json'):
     flat('r1_reml', json.load(open(f'{R}/exp_r1_meta_reml.json')))
 json.dump(N, open(f'{R}/numbers.json', 'w'), indent=1, default=float)
+# round 2: breadth of instruction, pooled school fixed effects, outcome-defined rules under a permutation null,
+# extended balanced index, same-sample reading interaction, logit AME, item checks, sub-national units, meta-regression
+for part in ('count', 'schfe', 'rules2', 'bal2', 'inter2', 'items2', 'subnat', 'meta'):
+    fn = f'{R}/exp_r2_{part}.json'
+    if os.path.exists(fn):
+        flat(f'r2_{part}', json.load(open(fn)))
+import pandas as _pd
+_f = _pd.read_csv(f'{R}/exp_r1_predict_folds.csv')
+N['r1_pred_acc_lgbm'] = float(_f[_f.model == 'lgbm']['acc'].mean())
+N['r1_pred_majority_acc'] = 1 - N['r1_readgap_prevalence']
+if 'r2_rules2_obs_M0_full' in N:
+    for k in ('rule2a_allhigh', 'rule3_inconsistent'):
+        N[f'r2_rules2_obs_shift_{k}'] = N[f'r2_rules2_obs_M0_{k}'] - N['r2_rules2_obs_M0_full']
+        for nl in ('strata', 'system'):
+            N[f'r2_rules2_share_{nl}_{k}'] = N[f'r2_rules2_perm_{nl}_{k}_bias_mean'] / N[f'r2_rules2_obs_shift_{k}']
+if 'r2_meta_taught_beta_1' in N:
+    N['r2_meta_taught_pi_reduction'] = 1 - N['r2_meta_taught_tau'] / N['r2_meta_tau_intercept_only']
+json.dump(N, open(f'{R}/numbers.json', 'w'), indent=1, default=float)
+if 'r2_meta_click_p_1' in N:
+    N['r2_meta_other_min_p'] = min(N[f'r2_meta_{m}_p_1'] for m in ('click', 'ars', 'read', 'oecd'))
+    json.dump(N, open(f'{R}/numbers.json', 'w'), indent=1, default=float)

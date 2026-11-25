@@ -20,6 +20,7 @@ Public PISA 2018 student questionnaire file (SPSS, `CY07_MSU_STU_QQQ.sav`) from 
 | 9 | `extract_likert.py`, `extract_ids.py`, `prepare_r1.py` (38 agreement items for the response-style indices; exact school and student IDs) | `data/analysis_r1.parquet` |
 | 10 | `exp_r1.py <part>` for part in ars, alt, school, excl, tur, items, sep, inter, sens, jerrim, country, bal, rules, turb, sens2, logit | `results/exp_r1_<part>.json` |
 | 11 | `exp_r1_meta.py`, `exp_r1_meta_reml.py`, `exp_r1_predict.py`, `exp_r1_readgap.py` | meta-analyses (DerSimonian-Laird and REML with Hartung-Knapp-Sidik-Jonkman intervals), leave-systems-out prediction with system-grouped thresholds and saved predictions |
+| 11b | `prepare_r2.py`, `exp_r2.py <part>` for part in sysvars, count, schfe, rules2, bal2, inter2, items2, subnat; `exp_r2_meta.py` | round-2 checks: breadth of instruction, pooled school fixed effects, outcome-defined rules under a permutation null, 12-item balanced index, same-sample logit, item checks, sub-national units, meta-regression (`results/exp_r2_*.json`) |
 | 12 | `make_numbers.py`, `make_tables.py` (Tables 1 to 3, A1; Figs 1 to 3), `render.py`, `build_docx.py`, `make_submission.py` | `results/numbers.json`, `results/tables.json`, figures, `manuscript/main.docx`, highlights and cover letter |
 
 `run_all.sh` runs the whole sequence and writes SHA-256 digests of the code to `results/code_sha256.txt`.

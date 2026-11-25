@@ -30,6 +30,7 @@ bal = json.load(open(f'{R}/exp_r1_bal.json'))
 rules = json.load(open(f'{R}/exp_r1_rules.json'))
 turb = json.load(open(f'{R}/exp_r1_turb.json'))
 items = json.load(open(f'{R}/exp_r1_items.json'))
+r2 = {k: json.load(open(f'{R}/exp_r2_{k}.json')) for k in ('count', 'schfe', 'bal2', 'inter2', 'subnat')}
 
 
 def cell(e, scale=100, dec=2):
@@ -42,22 +43,27 @@ rows = [('**A. Model sequence (outcome: click rated 4 to 6)**', None, None, None
         ('M1', '+ background', p['M1_background'], None),
         ('M2', '+ reading achievement', p['M2_plus_reading'], None),
         ('M3', '+ other online-information instruction', p['M3_plus_other_instruction'], tur['M3']),
-        ('M4', '+ acquiescence index (main model)', ars['M4ars'], tur['M4ars']),
+        ('M4', '+ agreement index (main model)', ars['M4ars'], tur['M4ars']),
         ('M4b', 'M4 + extreme-response index', ars['M4ars_ers'], None),
         ('M4c', 'M3 + balanced acquiescence index (belonging items) instead of the agreement index', bal['M4bal'], None),
-        ('B', 'M4 + mean rating of the three safe reactions (outcome-based bound)', ars['M4ars_safe'], turb['TUR_M4ars_safe']),
+        ('M4d', 'M3 + balanced acquiescence index (belonging and reading self-concept, 12 items) instead of the agreement index', r2['bal2']['M4bal2'], None),
+        ('M4s', 'M4 with school instead of system fixed effects', r2['schfe']['M4_schFE'], None),
+        ('M4l', 'M4 as weighted logit, average marginal effect (first plausible value)', {'b': r2['inter2']['logit_M4_ame'], 'se': r2['inter2']['logit_M4_ame_se'], 'n': p['M0_none']['n']}, None),
+        ('B', 'M4 + mean rating of the three safe reactions (outcome-based sensitivity specification)', ars['M4ars_safe'], turb['TUR_M4ars_safe']),
         ('**B. Alternative outcomes and exposure (M4 covariates)**', None, None, None),
         ('O1', 'Click rated 5 or 6', alt['click5_M4ars'], None),
         ('O2', 'Click rated 6', alt['click6_M4ars'], None),
         ('O3', 'Click rated strictly higher than every other reaction', alt['click_top_M4ars'], None),
         ('O4', 'METASPAM (SD units x 100; higher = better ranking)', alt['metaspam_sd_M4ars'], None),
         ('S1', 'School share taught (leave-one-out, per 10 pp)', {'b': sch['school_M4ars']['b'] / 10, 'se': sch['school_M4ars']['se'] / 10, 'n': sch['school_M4ars']['n']}, None),
+        ('X7', 'Exposure: number of the seven instruction topics reported (per topic), M2 + agreement index', r2['count']['n_all7_M2ars'], None),
         ('**C. Sample restrictions (M4 unless stated)**', None, None, None),
         ('E1', 'Test effort above 4 (rule 1 only)', rules['effort_M4ars'], None),
         ('E2', 'No all-low pattern on the scenario (rule 2b only)', rules['not_alllow_M4ars'], None),
         ('E3', 'No all-high pattern on the scenario (rule 2a only; removes endorsers only)', rules['not_allhigh_M4ars'], None),
         ('E4', 'Click and delete not both 4 or above (rule 3 only; removes endorsers only)', rules['consistent_M4ars'], None),
-        ('E5', 'Top tenth of each system\'s agreement index removed', json.load(open(f'{R}/exp_r1_excl.json'))['ars_top10_dropped_M4ars'], None),
+        ('E5', 'Top tenth of each system\'s agreement index removed (with ties at the cut-off and imputed index values)', json.load(open(f'{R}/exp_r1_excl.json'))['ars_top10_dropped_M4ars'], None),
+        ('E6', 'Moscow Region and Tatarstan removed (overlap with the Russian Federation)', r2['subnat']['no_RUS_regions_M4'], None),
         ('J0', 'Restricted sample (Jerrim-type), M0', jer['all_M0'], jer['by_country']['TUR']['M0']),
         ('J4', 'Restricted sample (Jerrim-type), M4', jer['all_M4ars'], jer['by_country']['TUR']['M4ars']),
         ('J0o', 'Restricted sample, OECD members only, M0', jer['oecd_M0'], None),
