@@ -1,0 +1,6 @@
+/usr/local/lib/python3.13/site-packages/shap/explainers/_tree.py:578: UserWarning: LightGBM binary classifier with TreeExplainer shap values output has changed to a list of ndarray
+  warnings.warn(
+all {'PV1READ': 0.3091, 'PV1SCIE': 0.1876, 'METASUM': 0.1513, 'MASTGOAL': 0.0992, 'UNDREM': 0.0854, 'HOMESCH': 0.0688, 'PISADIFF': 0.067, 'ST158Q05_y': 0.0653, 'COMPETE': 0.0599, 'ISCEDL': 0.0576, 'RESILIENCE': 0.0576, 'WORKMAST': 0.0508} taught rank 50
+/usr/local/lib/python3.13/site-packages/shap/explainers/_tree.py:578: UserWarning: LightGBM binary classifier with TreeExplainer shap values output has changed to a list of ndarray
+  warnings.warn(
+TUR {'PV1READ': 0.2611, 'PV1SCIE': 0.1524, 'METASUM': 0.1419, 'MASTGOAL': 0.1103, 'HOMESCH': 0.091, 'UNDREM': 0.0765, 'ENTUSE': 0.0722, 'ST158Q05_y': 0.0664, 'DISCRIM': 0.0643, 'COMPETE': 0.061, 'RESILIENCE': 0.0595, 'SOIAICT': 0.0545} taught rank 52
