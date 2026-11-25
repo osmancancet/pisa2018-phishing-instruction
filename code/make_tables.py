@@ -87,7 +87,7 @@ lab = [('answer_email', 'ST166Q01HA', 'Answer the email and ask for more informa
        ('click_link', 'ST166Q03HA', 'Click the link to fill out the form (risky)'),
        ('delete_email', 'ST166Q04HA', 'Delete the email without clicking the link'),
        ('check_operator_site', 'ST166Q05HA', "Check the operator's website")]
-t = ['| Reaction | All: taught | All: not | All: adj. diff. (SE) | TR: taught | TR: not | TR: adj. diff. (SE) |',
+t = ['| Reaction | All: taught | All: not | All: adj. diff. (SE) | Türkiye: taught | Türkiye: not | Türkiye: adj. diff. (SE) |',
      '|' + '|'.join('-' * w for w in (34, 9, 9, 16, 9, 9, 16)) + '|']
 for k, code, l in lab:
     a = a6['items']['pooled'][k]; b = a6['items']['TUR'][k]; ia = items[code]; it = items['TUR_' + code]
@@ -153,7 +153,7 @@ for ax, chunk in zip(axes, (items_f[:half], items_f[half:])):
     ax.set_ylim(half, -1)
     ax.tick_params(axis='x', labelsize=7)
 fig.supxlabel('Conditional association (M4), percentage points, with 95% CI', fontsize=8)
-fig.tight_layout(); fig.savefig(f'{OUT}/fig2_forest.png', dpi=300)
+fig.tight_layout(); fig.savefig(f'{OUT}/fig4_forest.png', dpi=300)
 
 # Figure 3: SHAP mean |value| top 15, bars coloured by direction of association with the feature value
 LAB = {'PV1READ': 'Reading achievement (PV1)', 'PV1SCIE': 'Science achievement (PV1)', 'PV1MATH': 'Mathematics achievement (PV1)',
@@ -199,8 +199,8 @@ if len(_cf) == 6:
     a1.set_ylabel('Coefficient on phishing\ninstruction (pp, 95% CI)', fontsize=8)
     a1.tick_params(labelsize=7)
     from matplotlib.lines import Line2D
-    a1.legend(handles=[Line2D([], [], marker='o', ls='', color='#1f4e79', ms=4, label='Full sample or rule defined outside the outcome'),
-                       Line2D([], [], marker='o', ls='', color='#c0392b', ms=4, label='Rule defined on the scenario ratings')],
+    a1.legend(handles=[Line2D([], [], marker='o', ls='', color='#1f4e79', ms=4, label='Full sample, rule 1 or rule 2b'),
+                       Line2D([], [], marker='o', ls='', color='#c0392b', ms=4, label='Rule 2a or rule 3 (can remove only endorsers)')],
               fontsize=7, loc='upper left', frameon=False)
     lab_rows = [('cov', 'M0', 'M0: system FE'), ('cov', 'M1', 'M1: + background'), ('cov', 'M2', 'M2: + reading'),
                 ('cov', 'M3', 'M3: + other topics'), ('cov', 'M4', 'M4: + agreement index'),
@@ -218,4 +218,4 @@ if len(_cf) == 6:
     for yy in (5.5, 9.5):
         a2.axhline(yy, color='#bbb', lw=0.5)
     a2.set_xlabel('Specifications ordered by estimate', fontsize=8); a2.tick_params(axis='x', labelsize=7)
-    fig.tight_layout(); fig.savefig(f'{OUT}/fig5_speccurve.png', dpi=300)
+    fig.tight_layout(); fig.savefig(f'{OUT}/fig2_speccurve.png', dpi=300)

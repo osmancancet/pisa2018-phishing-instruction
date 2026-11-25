@@ -41,3 +41,5 @@ Runtime on a 4-core machine with 15 GB RAM: step 4 about 1.5 h (80 replicate wei
 
 ## Licence
 MIT.
+
+**Note on `results/numbers.json`.** The file keeps the keys of every analysis run, including specifications from earlier rounds that the manuscript no longer reports (for example `pooled_M4_plus_response_style_*`, an early M4 that conditioned on the safe ratings, and the top-level `meta_*` keys of the first meta-analysis). The manuscript uses only the keys named in `manuscript/sections/*.md`; the current main model M4 is `r1_ars_M4ars_*`.
