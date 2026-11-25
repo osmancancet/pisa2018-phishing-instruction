@@ -48,7 +48,7 @@ def fill(text):
 
 parts = ['00_front', '00_abstract', '01_introduction', '02_background', '03_methods', '04_results', '05_discussion', '06_conclusion', '07_declarations']
 body = '\n\n'.join(open(f'manuscript/sections/{p}.md').read() for p in parts)
-body += '\n\n# Appendix {-}\n\nTable: Table A1. Students in the descriptive sample (n), weighted shares (%) with BRR standard errors, and the system-specific M4 coefficient (percentage points; regression sample, which is slightly smaller because of missing covariates). Viet Nam has no M4 estimate because its reading plausible values are not reported.\n\n{{TABLE:tableA1}}\n'
+body += '\n\n# Appendix {-}\n\nTable: Table A1. Students in the descriptive sample (n), weighted shares (%) with BRR standard errors, and the system-specific M4 coefficient (percentage points; regression sample, which is slightly smaller because of missing covariates). Viet Nam has no M4 estimate because its reading plausible values are not reported.\n\n{{TABLE:tableA1}}\n\nTable: Table A2. Leave-systems-out prediction of rating "click the link" as appropriate (five folds grouped by system; {{loco_n|int}} students, {{loco_n_features|int}} features). LightGBM with seed 0; decision thresholds were chosen on held-out training systems. Mean over folds with 95% t-interval half-widths in parentheses; threshold-free metrics first.\n\n{{TABLE:table3}}\n'
 body += '\n\n# References {-}\n\n::: {#refs}\n:::\n'
 out = fill(body)
 left = re.findall(r'\{\{[^}]*\}\}', out)

@@ -1103,5 +1103,6 @@
  "r2_rules2_share_system_rule3_inconsistent": 0.25038317666249854,
  "r2_meta_taught_pi_reduction": 0.051880872707876335,
  "r2_meta_other_min_p": 0.267563613801306,
- "ITA_minus_TUR_taught": 0.00020826704779014493
+ "ITA_minus_TUR_taught": 0.00020826704779014493,
+ "r2_meta_taught_p_bonf5": 0.08175059767219911
 }
